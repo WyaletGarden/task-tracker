@@ -72,12 +72,12 @@ function Icon({ name, className = 'h-4 w-4' }) {
   return <svg aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24">{paths[name]}</svg>
 }
 
-function Stat({ label, value, suffix, color, progress, icon }) {
+function Stat({ label, value, suffix, color, barColor, progress, icon }) {
   return (
     <article className="flex min-h-[112px] flex-col justify-between rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.03)] dark:border-slate-700 dark:bg-slate-900">
       <div className="flex items-center justify-between"><span className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</span><span className={color}><Icon name={icon} /></span></div>
       <div className="mt-3 flex items-baseline gap-1.5"><span className={`text-2xl font-bold leading-none ${color}`}>{value}</span><span className="text-xs text-slate-400">{suffix}</span></div>
-      <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"><div className={`h-full rounded-full ${progress >= 100 ? 'w-full' : ''} ${color.replace('text-', 'bg-')}`} style={{ width: `${progress}%` }} /></div>
+      <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"><div className={`h-full rounded-full ${barColor}`} style={{ width: `${progress}%` }} /></div>
     </article>
   )
 }
@@ -180,10 +180,10 @@ function TaskTracker() {
       </header>
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4" aria-label="Thống kê công việc">
-        <Stat label="Tổng số việc" value={stats.total} suffix="công việc" color="text-indigo-600" progress={stats.total ? 100 : 0} icon="book" />
-        <Stat label="Đang thực hiện" value={stats.active} suffix="cần làm" color="text-amber-500" progress={stats.total ? stats.active / stats.total * 100 : 0} icon="chat" />
-        <Stat label="Đã hoàn thành" value={stats.done} suffix="đã xong" color="text-emerald-600" progress={stats.total ? stats.done / stats.total * 100 : 0} icon="check" />
-        <Stat label="Tỷ lệ hoàn thành" value={`${stats.rate}%`} suffix="tiến độ" color="text-indigo-600" progress={stats.rate} icon="chart" />
+        <Stat label="Tổng số việc" value={stats.total} suffix="công việc" color="text-indigo-600" barColor="bg-indigo-600" progress={stats.total ? 100 : 0} icon="book" />
+        <Stat label="Đang thực hiện" value={stats.active} suffix="cần làm" color="text-amber-500" barColor="bg-amber-500" progress={stats.total ? stats.active / stats.total * 100 : 0} icon="chat" />
+        <Stat label="Đã hoàn thành" value={stats.done} suffix="đã xong" color="text-emerald-600" barColor="bg-emerald-500" progress={stats.total ? stats.done / stats.total * 100 : 0} icon="check" />
+        <Stat label="Tỷ lệ hoàn thành" value={`${stats.rate}%`} suffix="tiến độ" color="text-indigo-600" barColor="bg-indigo-600" progress={stats.rate} icon="chart" />
       </section>
 
       <form onSubmit={addTask} className="flex flex-col items-stretch gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm lg:flex-row lg:items-center dark:border-slate-700 dark:bg-slate-900">
